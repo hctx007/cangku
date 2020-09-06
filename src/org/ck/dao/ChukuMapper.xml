@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.ChukuMapper对应的接口 -->
+<mapper namespace="org.ck.dao.ChukuMapper">
+	
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+    <!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 根据产品id查询产品记录-->
+	<select id="selectInoutById"  resultType="inout" parameterType="String">
+	    select * from inout1 where id=#{id} and state=1
+	</select>
+	
+	<!-- 记录出库时间 -->
+	<update id="updateInoutOutTime" parameterType="inout">
+        update inout1 set outTime=#{outTime} where id=#{id}
+	</update>
+	
+	
+</mapper>

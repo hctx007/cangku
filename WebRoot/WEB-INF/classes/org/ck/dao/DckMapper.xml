@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.DckMapper对应的接口 -->
+<mapper namespace="org.ck.dao.DckMapper">
+	
+	<!-- 查询出大仓库的基本信息-->
+	<select id="dcksetup"  resultType="dck">
+	    select * from dck
+	</select>
+	
+    <insert id="dckAdd" parameterType="dck">
+        insert into dck(dckId,dckName,dckLocation,buildTime,dckBoss) values (#{dckId},#{dckName},#{dckLocation},#{buildTime},#{dckBoss})
+    </insert>
+
+    <!-- 修改大仓库信息-->
+	<update id="dckEdit" parameterType="dck">
+	    update dck 
+	    <set>
+	      <if test="dckName != null">
+	        dckName = #{dckName},
+	      </if>
+	      <if test="dckLocation != null">
+	        dckLocation = #{dckLocation},
+	      </if>
+	       <if test="buildTime != null">
+	        buildTime = #{buildTime},
+	      </if>
+	       <if test="dckBoss != null">
+	        dckBoss = #{dckBoss},
+	      </if>
+	     </set>
+	        where dckId = #{dckId}
+	</update>
+	
+</mapper>

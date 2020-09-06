@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.XckMapper对应的接口 -->
+<mapper namespace="org.ck.dao.XckMapper">
+	
+	<!-- 查询全部的小仓库-->
+	<select id="xcklist"  resultType="xck">
+	    select * from xck order by xckId asc	
+	</select>
+	
+	<!-- 根据小仓库id模糊搜索小仓库	-->
+	<select id="xckSearch"  resultType="xck" parameterType="String">
+	    select * from xck where xckId like concat('%',#{xckSearch},'%') 	
+		order by xckId asc
+	</select>
+	
+	<!-- 根据id查询小仓库并转到小仓库编辑界面-->
+	<select id="toxckEdit"  resultType="xck" parameterType="Integer">
+	    select * from xck where xckId=#{id}	
+	</select>
+	
+	<!-- 修改小仓库信息-->
+	<update id="xckEdit" parameterType="xck">
+	    update xck 
+	    <set>
+	      <if test="xckSize != null">
+	        xckSize = #{xckSize},
+	      </if>
+	      <if test="xckSize1 != null">
+	        xckSize1 = #{xckSize1},
+	      </if>
+	      <if test="xckHeight != null">
+	        xckHeight = #{xckHeight},
+	      </if>
+	     </set>
+	        where xckId = #{xckId}
+	</update>
+	
+	<!-- 删除指定id的小仓库及其流水记录-->
+	<delete id="xckDel" parameterType="Integer">
+	    delete from xck where xckId=#{id}
+	</delete>
+	
+	<!-- 添加小仓库 -->
+    <insert id="xckAdd" parameterType="xck">
+	    insert into xck (xckId,xckSize,xckSize1,xckHeight) values (null, #{xckSize}, #{xckSize}, #{xckHeight})
+	</insert>
+	
+</mapper>

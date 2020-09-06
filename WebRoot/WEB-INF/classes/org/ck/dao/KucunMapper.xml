@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.KucunMapper对应的接口 -->
+<mapper namespace="org.ck.dao.KucunMapper">
+	
+	
+	<!-- 未入库模块 -->
+	<!-- 查询出所有的未入库流水账单 -->
+	<select id="rukuNolist" resultType="inout">
+         select * from inout1 where state=0 order by id asc	
+	</select>
+
+	
+	<!-- 根据关键字模糊搜索相关未入库流水记录 -->
+	<select id="rukuNoSearch" resultType="inout" parameterType="String">
+         select inout1.* from inout1 join gys join cp
+         on inout1.gysId=gys.gysId and inout1.cpId=cp.cpId 
+         where concat(inout1.id,gys.gysName,cp.cpName,inout1.xckId) like concat('%',#{rukuNoSearch},'%') and state=0
+	</select>
+	
+    <!-- 产品入库确认 -->
+	<update id="rukuSuccess" parameterType="String">
+	    update inout1 set state=1 where id = #{id}
+	</update>
+	
+	<!-- 已入库模块 -->
+	<!-- 查询出所有的已入库流水账单 -->
+	<select id="rukuYeslist" resultType="inout">
+         select * from inout1 where state=1 order by id asc	
+	</select>
+	
+	<!-- 根据关键字模糊搜索相关已入库流水记录 -->
+	<select id="rukuYesSearch" resultType="inout" parameterType="String">
+         select inout1.* from inout1 join gys join cp
+         on inout1.gysId=gys.gysId and inout1.cpId=cp.cpId
+         where concat(inout1.id,gys.gysName,cp.cpName,inout1.xckId) like concat('%',#{rukuYesSearch},'%') and state=1
+	</select>
+	
+	<!-- 产品出库确认 -->
+	<update id="chukuSuccess" parameterType="String">
+	    update inout1 set state=2 where id = #{id}
+	</update>
+	
+	<!-- 产品出库，小仓库容量恢复 -->
+	<update id="chukuUpdateXckSize1" >
+	     update xck set xckSize1=xckSize1+#{size} where xckId=#{id}
+	</update>
+	
+
+	
+	<!-- 已出库模块 -->
+	<!-- 查询出所有的已入库流水账单 -->
+	<select id="chukuYeslist" resultType="inout">
+         select * from inout1 where state=2 order by id asc	
+	</select>
+	
+	<!-- 根据关键字模糊搜索相关已出库流水记录 -->
+	<select id="chukuYesSearch" resultType="inout" parameterType="String">
+         select inout1.* from inout1 join gys join cp
+         on inout1.gysId=gys.gysId and inout1.cpId=cp.cpId
+         where concat(inout1.id,gys.gysName,cp.cpName,inout1.xckId) like concat('%',#{chukuYesSearch},'%') and state=2
+	</select>
+	
+	
+	<!-- 公共模块 -->
+	<!-- 根据id查询流水记录 -->
+	<select id="selectInoutById" resultType="inout" parameterType="String">
+         select * from inout1 where id=#{id}
+	</select>
+		
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+	<!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 查询全部的小仓库-->
+	<select id="xcklist"  resultType="xck">
+	    select * from xck order by xckId asc	
+	</select>
+	
+</mapper>

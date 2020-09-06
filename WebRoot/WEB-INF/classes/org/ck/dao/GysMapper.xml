@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.GysMapper对应的接口 -->
+<mapper namespace="org.ck.dao.GysMapper">
+	
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+	<!-- 根据小仓库id模糊搜索供应商	-->
+	<select id="gysSearch"  resultType="gys" parameterType="String">
+	    select * from gys where gysId like concat('%',#{gysSearch},'%') or
+	    gysName like concat('%',#{gysSearch},'%') 	
+		order by gysId asc
+	</select>
+	
+	<!-- 根据id查询供应商并转到供应商编辑界面-->
+	<select id="togysEdit"  resultType="gys" parameterType="Integer">
+	    select * from gys where gysId=#{id}	
+	</select>
+	
+	<!-- 修改供应商信息-->
+	<update id="gysEdit" parameterType="gys">
+	    update gys 
+	    <set>
+	      <if test="gysName != null">
+	        gysName = #{gysName},
+	      </if>
+	      <if test="phone != null">
+	        phone = #{phone},
+	      </if>
+	     </set>
+	        where gysId = #{gysId}
+	</update>
+	
+	<!-- 删除指定id的供应商及相关产品和流水记录-->
+	<delete id="gysDel" parameterType="Integer">
+	    delete from gys where gysId=#{id}
+	</delete>
+	
+	<!-- 添加供应商 -->
+    <insert id="gysAdd" parameterType="gys">
+	    insert into gys (gysId,gysName,phone) values (null, #{gysName}, #{phone})
+	</insert>
+	
+</mapper>

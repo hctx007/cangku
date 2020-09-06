@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.TableMapper对应的接口 -->
+<mapper namespace="org.ck.dao.TableMapper">
+	
+	
+	<!-- 未入库模块 -->
+	<!-- 查询出所有的未入库流水账单 -->
+	<select id="rukuNolist" resultType="inout">
+         select * from inout1 where state=0 order by id asc	
+	</select>
+	
+	<!-- 模糊搜索对应的流水记录 -->
+	<select id="kucunSearch" resultType="inout">
+         select inout1.* from inout1 join gys join cp
+         on inout1.gysId=gys.gysId and inout1.cpId=cp.cpId 
+         where concat(inout1.id,gys.gysName,cp.cpName) like concat('%',#{kucunSearch},'%') and state=#{state}
+	</select>
+	
+	<!-- 模糊搜索对应的财务流水记录 -->
+	<select id="moneySearch" resultType="inout">
+         select inout1.* from inout1 join gys join cp
+         on inout1.gysId=gys.gysId and inout1.cpId=cp.cpId 
+         where concat(inout1.id,gys.gysName,cp.cpName,inout1.cpNumber,inout1.price) like concat('%',#{moneySearch},'%') and state=#{state}
+	</select>
+	
+	<!-- 公共模块 -->
+	<!-- 根据id查询流水记录 -->
+	<select id="selectInoutById" resultType="inout" parameterType="String">
+         select * from inout1 where id=#{id}
+	</select>
+		
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+	<!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 查询全部的小仓库-->
+	<select id="xcklist"  resultType="xck">
+	    select * from xck order by xckId asc	
+	</select>
+	
+</mapper>

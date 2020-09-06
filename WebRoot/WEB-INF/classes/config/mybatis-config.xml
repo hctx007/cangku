@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="gys" type="org.ck.model.gys"/>
+        <typeAlias alias="cp" type="org.ck.model.cp"/>
+        <typeAlias alias="xck" type="org.ck.model.xck"/>
+        <typeAlias alias="inout" type="org.ck.model.inout"/>
+        <typeAlias alias="yg" type="org.ck.model.yg"/>
+        <typeAlias alias="cgy" type="org.ck.model.cgy"/>
+        <typeAlias alias="dck" type="org.ck.model.dck"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="org/ck/dao/CgyMapper.xml" />
+        <mapper resource="org/ck/dao/YgMapper.xml" />
+        <mapper resource="org/ck/dao/XckMapper.xml" />
+        <mapper resource="org/ck/dao/DckMapper.xml" />
+        <mapper resource="org/ck/dao/GysMapper.xml" />
+        <mapper resource="org/ck/dao/CpMapper.xml" />
+        <mapper resource="org/ck/dao/RukuMapper.xml" />
+        <mapper resource="org/ck/dao/ChukuMapper.xml" />
+        <mapper resource="org/ck/dao/KucunMapper.xml" />
+        <mapper resource="org/ck/dao/TableMapper.xml" />
+    </mappers>
+</configuration>

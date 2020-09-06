@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.RukuMapper对应的接口 -->
+<mapper namespace="org.ck.dao.RukuMapper">
+	
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+    <!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 根据产品id查询产品记录-->
+	<select id="selectCpById"  resultType="cp" parameterType="Integer">
+	    select * from cp where cpId=#{id}
+	</select>
+	
+	<!-- 根据所有产品的底面积查询有足够容量的小仓库记录-->
+	<select id="selectXckByArea"  resultType="xck" parameterType="double">
+	    select * from xck where #{Area}*xckHeight &lt;= xckSize1
+	</select>
+	
+	<!-- 根据所有产品的总容量查询有足够容量的小仓库记录-->
+	<select id="selectXckBySize"  resultType="xck" parameterType="double">
+	    select * from xck where #{Size} &lt;= xckSize1
+	</select>
+		
+	<!-- 小仓库的容量相应减少-->
+	<update id="updateXckSize1" >
+	    update xck set xckSize1=xckSize1-#{size} where xckId=#{xckId}
+	</update>
+	
+	<!-- 添加流水记录-->
+	<insert id="addInout"  parameterType="inout">
+	    insert into inout1 (id,gysId,cpId,xckId,size,cpNumber,price,inTime,storageTime,state) values (#{id},#{gysId},#{cpId},#{xckId},#{size},#{cpNumber},#{price},#{inTime},#{storageTime},#{state})
+	</insert>
+	
+	
+</mapper>

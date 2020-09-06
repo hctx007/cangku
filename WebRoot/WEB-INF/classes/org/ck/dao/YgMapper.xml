@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.YgMapper对应的接口 -->
+<mapper namespace="org.ck.dao.YgMapper">
+	
+	<!-- 查询全部的员工-->
+	<select id="yglist"  resultType="yg">
+	    select * from yg order by ygId asc	
+	</select>
+	
+	<!-- 根据用户名、姓名模糊搜索员工	-->
+	<select id="ygSearch"  resultType="yg" parameterType="String">
+	    select * from yg where ygId like concat('%',#{ygSearch},'%') 
+		or ygName like concat('%',#{ygSearch},'%') 	
+		order by ygId asc
+	</select>
+	
+	<!-- 根据id查询员工并转到员工编辑界面-->
+	<select id="toygEdit"  resultType="yg" parameterType="Integer">
+	    select * from yg where ygId=#{id}	
+	</select>
+	
+	<!-- 修改员工信息-->
+	<update id="ygEdit" parameterType="yg">
+	    update yg 
+	    <set>
+	      <if test="ygName != null">
+	        ygName = #{ygName},
+	      </if>
+	      <if test="ygSex != null">
+	        ygSex = #{ygSex},
+	      </if>
+	      <if test="ygAge != null">
+	        ygAge = #{ygAge},
+	      </if>
+	     </set>
+	        where ygId = #{ygId}
+	</update>
+	
+	<!-- 删除指定id的员工 -->
+	<delete id="ygDel" parameterType="Integer">
+	    delete from yg where ygId=#{id}
+	</delete>
+	
+	<!-- 添加员工 -->
+    <insert id="ygAdd" parameterType="yg">
+	    insert into yg (ygId,ygName,ygSex,ygAge) values (null, #{ygName}, #{ygSex},#{ygAge})
+	</insert>
+	
+</mapper>

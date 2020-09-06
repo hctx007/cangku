@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.CpMapper对应的接口 -->
+<mapper namespace="org.ck.dao.CpMapper">
+
+    <!-- 查询全部的供应商-->
+	<select id="gyslist1"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+
+	<!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 模糊搜索产品	-->
+	<select id="cpSearch"  resultType="cp" parameterType="String">
+	    select cp.* from cp join gys
+         on  cp.gysId=gys.gysId
+         where concat(cp.cpId,gys.gysName,cp.cpName) like concat('%',#{cpSearch},'%') 
+		 order by cpId asc
+	</select>
+	
+	<!-- 根据id查询产品并转到产品编辑界面-->
+	<select id="tocpEdit"  resultType="cp" parameterType="Integer">
+	    select * from cp where cpId=#{id}	
+	</select>
+	
+	<!-- 修改产品信息-->
+	<update id="cpEdit" parameterType="cp">
+	    update cp 
+	    <set>
+	      <if test="gysId != null">
+	        gysId = #{gysId},
+	      </if>
+	      <if test="cpName != null">
+	        cpName = #{cpName},
+	      </if>
+	      <if test="price != null">
+	        price = #{price},
+	      </if>
+	      <if test="size != null">
+	        size = #{size},
+	      </if>
+	      <if test="cpHeight != null">
+	        cpHeight = #{cpHeight},
+	      </if>
+	      <if test="stackable != null">
+	        stackable = #{stackable},
+	      </if>
+	     </set>
+	        where cpId = #{cpId}
+	</update>
+	
+	<!-- 删除指定id的产品 -->
+	<delete id="cpDel" parameterType="Integer">
+	    delete from cp where cpId=#{id}
+	</delete>
+	
+	<!-- 添加产品 -->
+    <insert id="cpAdd" parameterType="cp">
+	    insert into cp (cpId,gysId,cpName,price,size,cpHeight,stackable) values (null, #{gysId}, #{cpName},#{price},#{size},#{cpHeight},#{stackable})
+	</insert>
+	
+</mapper>

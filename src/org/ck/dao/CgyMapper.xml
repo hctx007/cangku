@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- org.ck.dao.CgyMapper对应的接口 -->
+<mapper namespace="org.ck.dao.CgyMapper">
+
+	<!-- 仓管员登录-->
+	<select id="login"  resultType="cgy" parameterType="cgy">
+		select * from cgy where cgyId=#{cgyId} and password=#{password}
+	</select>
+	
+	<!-- 查询全部的仓管员-->
+	<select id="cgylist"  resultType="cgy">
+	    select * from cgy order by cgyId asc	
+	</select>
+	
+	<!-- 根据用户名、姓名模糊搜索仓管员	-->
+	<select id="cgySearch"  resultType="cgy" parameterType="String">
+	    select * from cgy where cgyId like concat('%',#{cgySearch},'%') 
+		or cgyName like concat('%',#{cgySearch},'%') 	
+		order by cgyId asc
+	</select>
+	
+	<!-- 根据id查询仓管员并转到仓管员编辑界面-->
+	<select id="tocgyEdit"  resultType="cgy" parameterType="Integer">
+	    select * from cgy where cgyId=#{id}	
+	</select>
+	
+	<!-- 修改仓管员信息-->
+	<update id="cgyEdit" parameterType="cgy">
+	    update cgy 
+	    <set>
+	      <if test="cgyName != null">
+	        cgyName = #{cgyName},
+	      </if>
+	      <if test="cgySex != null">
+	        cgySex = #{cgySex},
+	      </if>
+	      <if test="cgyAge != null">
+	        cgyAge = #{cgyAge},
+	      </if>
+	      <if test="password != null">
+	        password = #{password},
+	      </if>
+	     </set>
+	        where cgyId = #{cgyId}
+	</update>
+	
+	<!-- 删除指定id的仓管员 -->
+	<delete id="cgyDel" parameterType="Integer">
+	    delete from cgy where cgyId=#{id}
+	</delete>
+	
+	<!-- 添加仓管员 -->
+    <insert id="cgyAdd" parameterType="cgy">
+	    insert into cgy (cgyId,cgyName,cgySex,cgyAge,password) values (null, #{cgyName}, #{cgySex},#{cgyAge},#{password})
+	</insert>
+	
+	<!-- 查询全部的供应商-->
+	<select id="gyslist"  resultType="gys">
+	    select * from gys order by gysId asc	
+	</select>
+	
+	<!-- 查询全部的产品-->
+	<select id="cplist"  resultType="cp">
+	    select * from cp order by cpId asc	
+	</select>
+	
+	<!-- 查询全部的小仓库-->
+	<select id="xcklist"  resultType="xck">
+	    select * from xck order by xckId asc	
+	</select>
+	
+	
+</mapper>
